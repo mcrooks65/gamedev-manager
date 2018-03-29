@@ -56,7 +56,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (= 4.2.5)
+  activerecord
   pry
   rake
   require_all
