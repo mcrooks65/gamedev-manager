@@ -22,11 +22,11 @@ ActiveRecord::Schema.define(version: 20180411214825) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.string "title"
-    t.string "developer"
-    t.string "description"
-    t.string "genre"
-    t.float  "price"
+    t.string  "title"
+    t.integer "developer_id"
+    t.string  "description"
+    t.string  "genre"
+    t.float   "price"
   end
 
 end
