@@ -15,6 +15,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.4)
+    bcrypt (3.1.11)
     builder (3.2.3)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
@@ -57,6 +58,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  bcrypt
   pry
   rake
   require_all
