@@ -28,8 +28,16 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/login' do
+  get '/login' do # Login page.
     erb :'/devs/login'
+  end
+
+  get '/devs/show' do # Index all developers.
+    erb :'/devs/show'
+  end
+
+  get '/games/show' do # Index all games.
+    erb :'/games/show'
   end
 
 end
