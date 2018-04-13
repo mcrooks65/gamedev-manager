@@ -33,11 +33,22 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/devs/show' do # Index all developers.
+    @devs = Developer.all
     erb :'/devs/show'
   end
 
   get '/games/show' do # Index all games.
+    @games = Game.all
     erb :'/games/show'
   end
+
+  # get '/tweets' do
+  #   if logged_in?
+  #     @tweets = Tweet.all
+  #     erb :'tweets/tweets'
+  #   else
+  #     redirect to '/login'
+  #   end
+  # end
 
 end
