@@ -19,13 +19,14 @@ class DeveloperController < ApplicationController
     erb :'/devs/login'
   end
 
+
   post '/login' do
-    @developer = Developer.find_by(:name => params[:name])
-    if @developer != nil && @developer.password == params[:password]
-      session[:user_id] = @developer.id
-      redirect '/test'
+    @user = Developer.find_by(:name => params[:name])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect "/test"
     else
-      erb :error
+      redirect to '/login'
     end
   end
 
