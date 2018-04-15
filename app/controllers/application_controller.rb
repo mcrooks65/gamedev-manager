@@ -32,23 +32,31 @@ class ApplicationController < Sinatra::Base
     erb :'/devs/login'
   end
 
-  get '/devs/show' do # Index all developers.
+  post '/login' do
+    @developer = Developer.find_by(:name => params[:name])
+    if @developer != nil && @developer.password == params[:password]
+      session[:user_id] = @developer.id
+      redirect '/test'
+    end
+  end
+
+  get '/test' do
+    @current_user = Developer.find_by_id(session[:user_id])
+    if @current_user
+      erb :test
+    else
+      erb :error
+    end
+  end
+
+  get '/devs' do # Index all developers.
     @devs = Developer.all
     erb :'/devs/show'
   end
 
-  get '/games/show' do # Index all games.
+  get '/games' do # Index all games.
     @games = Game.all
     erb :'/games/show'
   end
-
-  # get '/tweets' do
-  #   if logged_in?
-  #     @tweets = Tweet.all
-  #     erb :'tweets/tweets'
-  #   else
-  #     redirect to '/login'
-  #   end
-  # end
 
 end
