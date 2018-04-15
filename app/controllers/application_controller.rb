@@ -13,50 +13,14 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
-  get '/register' do
-    erb :'/devs/register'
-  end
-
-  post '/register' do
-    if params[:name] == "" || params[:password] == ""
-      redirect to '/register'
-    else
-      @developer = Developer.new(:name => params[:name], :password => params[:password])
-      @developer.save
-      session[:user_id] = @developer.id
-      redirect to '/login'
+  helpers do
+    def logged_in?
+      !!current_user
     end
-  end
 
-  get '/login' do # Login page.
-    erb :'/devs/login'
-  end
-
-  post '/login' do
-    @developer = Developer.find_by(:name => params[:name])
-    if @developer != nil && @developer.password == params[:password]
-      session[:user_id] = @developer.id
-      redirect '/test'
+    def current_user
+      @current_user ||= Developer.find_by(id: session[:user_id]) if session[:user_id]
     end
-  end
-
-  get '/test' do
-    @current_user = Developer.find_by_id(session[:user_id])
-    if @current_user
-      erb :test
-    else
-      erb :error
-    end
-  end
-
-  get '/devs' do # Index all developers.
-    @devs = Developer.all
-    erb :'/devs/show'
-  end
-
-  get '/games' do # Index all games.
-    @games = Game.all
-    erb :'/games/show'
   end
 
 end
