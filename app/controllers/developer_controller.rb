@@ -34,6 +34,7 @@ class DeveloperController < ApplicationController
     @current_user = Developer.find_by_id(session[:user_id])
     if @current_user
       erb :test
+      binding.pry
     else
       erb :error
     end
