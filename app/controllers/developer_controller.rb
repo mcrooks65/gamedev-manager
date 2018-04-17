@@ -19,7 +19,6 @@ class DeveloperController < ApplicationController
     erb :'/devs/login'
   end
 
-
   post '/login' do
     @user = Developer.find_by(:name => params[:name])
     if @user && @user.authenticate(params[:password])
@@ -34,9 +33,18 @@ class DeveloperController < ApplicationController
     @current_user = Developer.find_by_id(session[:user_id])
     if @current_user
       erb :test
-      binding.pry
+
     else
       erb :error
+    end
+  end
+
+  get '/logout' do
+    if logged_in?
+      session.destroy
+      redirect to '/login'
+    else
+      redirect to '/'
     end
   end
 
