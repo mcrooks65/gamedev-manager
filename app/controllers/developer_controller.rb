@@ -8,7 +8,7 @@ class DeveloperController < ApplicationController
     if params[:name] == "" || params[:password] == ""
       redirect to '/register'
     else
-      @developer = Developer.new(:name => params[:name], :password => params[:password])
+      @developer = Developer.new(:name => params[:name], :password => params[:password], :employees => params[:employees], :location => params[:location])
       @developer.save
       session[:user_id] = @developer.id
       redirect to '/login'
