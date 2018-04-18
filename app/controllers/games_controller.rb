@@ -27,6 +27,10 @@ class GamesController < ApplicationController
     redirect "/games/#{@game.slug}"
   end
 
+  get '/games/:slug/edit' do
+    erb :'/games/edit'
+  end
+
   delete '/games/:slug/delete' do # Delete Game action
     @current_game = Game.find_by_slug(params[:slug])
     @current_dev = Developer.find_by(id: session[:user_id])
