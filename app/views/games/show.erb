@@ -4,4 +4,9 @@
 <h2><%=@current_game.price%></h2>
 <h2><%=@current_game_dev.name%></h2>
 
+<form method="post" action="/games/<%=@current_game.slug%>/delete">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Game">
+</form>
+
 <a href="/games">Back to Games index</a>

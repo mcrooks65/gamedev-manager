@@ -26,4 +26,16 @@ class GamesController < ApplicationController
     @game.save
     redirect "/games/#{@game.slug}"
   end
+
+  delete '/games/:slug/delete' do # Delete Game action
+    if logged_in? && @current_game.developer_id == @current_game_dev.id
+      @game = Game.find_by_slug(params[:slug])
+      if @game
+        @game.delete
+      end
+      redirect to '/games'
+    else
+      redirect to '/login'
+    end
+  end
 end
