@@ -4,8 +4,10 @@
 
 <% @current_dev_games.each do |game| %>
   <div>
-    <%= game.title %>
+    <a href="/games/<%= game.title%>"><%= game.title %></a>
   </div>
 <% end %>
+
+<br>
 
 <a href="/logout">Logout</a>
