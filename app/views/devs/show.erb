@@ -1,6 +1,13 @@
-<h2>Developer Index</h2>
-<% @devs.each do |dev| %>
+<h1>Logged in as:
+  <%= @current_dev.name %>
+</h1>
+
+<% @current_dev_games.each do |game| %>
   <div>
-    <%= dev.name %>
+    <a href="/games/<%= game.title%>"><%= game.title %></a>
   </div>
 <% end %>
+
+<br>
+
+<a href="/logout">Logout</a>

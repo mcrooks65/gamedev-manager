@@ -1,10 +1,15 @@
 class DeveloperController < ApplicationController
 
-  get '/register' do
+  get '/devs' do # Index all developers.
+    @devs = Developer.all
+    erb :'/devs/show'
+  end
+
+  get '/register' do # Create Developer page
     erb :'/devs/register'
   end
 
-  post '/register' do
+  post '/register' do # Create Developer action
     if params[:name] == "" || params[:password] == ""
       redirect to '/register'
     else
@@ -15,31 +20,31 @@ class DeveloperController < ApplicationController
     end
   end
 
-  get '/login' do # Login page.
+  get '/login' do # Login page for Developers.
     erb :'/devs/login'
   end
 
-  post '/login' do
+  post '/login' do # Login action for Developers
     @user = Developer.find_by(:name => params[:name])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect "/test"
+      redirect "/devs/#{@user.slug}"
     else
       redirect to '/login'
     end
   end
 
-  get '/test' do
-    @current_dev = Developer.find_by_id(session[:user_id])
+  get '/devs/:slug' do # Developer Show page using slugs
+    @current_dev = Developer.find_by_slug(params[:slug])
     @current_dev_games = Game.select { |game| game.developer_id == @current_dev.id}
-    if @current_dev
-      erb :test
+    if @current_dev.id == session[:user_id]
+      erb :'devs/show'
     else
       erb :error
     end
   end
 
-  get '/logout' do
+  get '/logout' do # Logout
     if logged_in?
       session.destroy
       redirect to '/login'
@@ -48,8 +53,5 @@ class DeveloperController < ApplicationController
     end
   end
 
-  get '/devs' do # Index all developers.
-    @devs = Developer.all
-    erb :'/devs/show'
-  end
+
 end
