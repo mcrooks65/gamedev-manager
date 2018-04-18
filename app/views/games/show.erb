@@ -1,6 +1,7 @@
-<h2>Games Index</h2>
-<% @games.each do |game| %>
-  <div>
-    <%= game.title %>
-  </div>
-<% end %>
+<h1><%=@current_game.title%></h1>
+<h2><%=@current_game.description%></h2>
+<h2><%=@current_game.genre%></h2>
+<h2><%=@current_game.price%></h2>
+<h2><%=@current_game_dev.name%></h2>
+
+<a href="/games">Back to Games index</a>
