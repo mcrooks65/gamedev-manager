@@ -1,4 +1,11 @@
 <h1>Logged in as:
-  <%= @current_user.name %>
+  <%= @current_dev.name %>
 </h1>
+
+<% @current_dev_games.each do |game| %>
+  <div>
+    <%= game.title %>
+  </div>
+<% end %>
+
 <a href="/logout">Logout</a>

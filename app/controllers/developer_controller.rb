@@ -30,10 +30,10 @@ class DeveloperController < ApplicationController
   end
 
   get '/test' do
-    @current_user = Developer.find_by_id(session[:user_id])
-    if @current_user
+    @current_dev = Developer.find_by_id(session[:user_id])
+    @current_dev_games = Game.select { |game| game.developer_id == @current_dev.id}
+    if @current_dev
       erb :test
-
     else
       erb :error
     end
