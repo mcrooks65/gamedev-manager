@@ -9,8 +9,21 @@ class GamesController < ApplicationController
     if @current_game
       @current_game_dev = Developer.find { |dev| dev.id == @current_game.developer_id }
       erb :'games/show'
-    else
-      erb :error2 #might want a new error message for game not found..
     end
+  end
+
+  get '/newgame' do # Create Game page
+    if logged_in?
+      erb :'/games/create'
+    else
+      redirect '/login'
+    end
+  end
+
+  post '/newgame' do # Create Game action
+    @current_dev = Developer.find_by(id: session[:user_id])
+    @game = Game.new(:title => params[:title], :developer_id => @current_dev.id, :description => params[:description], :genre => params[:genre], :price => params[:price])
+    @game.save
+    redirect "/games/#{@game.slug}"
   end
 end
