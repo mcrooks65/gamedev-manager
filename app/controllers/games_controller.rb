@@ -27,8 +27,24 @@ class GamesController < ApplicationController
     redirect "/games/#{@game.slug}"
   end
 
-  get '/games/:slug/edit' do
-    erb :'/games/edit'
+  get '/games/:slug/edit' do # Edit Game page
+    @current_game = Game.find_by_slug(params[:slug])
+    @current_dev = Developer.find_by(id: session[:user_id])
+    if logged_in? && @current_game.developer_id == @current_dev.id
+      erb :'/games/edit'
+    else
+      redirect '/login'
+    end
+  end
+
+  patch '/games/:slug' do # Edit Game action
+    @current_game = Game.find_by_slug(params[:slug])
+    @current_game.title = params[:title]
+    @current_game.description = params[:description]
+    @current_game.genre = params[:genre]
+    @current_game.price = params[:price]
+    @current_game.save
+    redirect to "/games/#{@current_game.slug}"
   end
 
   delete '/games/:slug/delete' do # Delete Game action
