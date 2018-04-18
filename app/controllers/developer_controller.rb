@@ -2,7 +2,7 @@ class DeveloperController < ApplicationController
 
   get '/devs' do # Index all developers.
     @devs = Developer.all
-    erb :'/devs/show'
+    erb :'/devs/index'
   end
 
   get '/register' do # Create Developer page
@@ -25,10 +25,10 @@ class DeveloperController < ApplicationController
   end
 
   post '/login' do # Login action for Developers
-    @user = Developer.find_by(:name => params[:name])
-    if @user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
-      redirect "/devs/#{@user.slug}"
+    @dev = Developer.find_by(:name => params[:name])
+    if @dev && @dev.authenticate(params[:password])
+      session[:user_id] = @dev.id
+      redirect "/devs/#{@dev.slug}"
     else
       redirect to '/login'
     end
@@ -37,21 +37,18 @@ class DeveloperController < ApplicationController
   get '/devs/:slug' do # Developer Show page using slugs
     @current_dev = Developer.find_by_slug(params[:slug])
     @current_dev_games = Game.select { |game| game.developer_id == @current_dev.id}
-    if @current_dev.id == session[:user_id]
+    if @current_dev.id == session[:user_id] # Probably could have just used logged_in? method like in /logout
       erb :'devs/show'
     else
       erb :error
     end
   end
 
-  get '/logout' do # Logout
+  get '/logout' do # Logout and clear current session
     if logged_in?
       session.destroy
-      redirect to '/login'
-    else
-      redirect to '/'
     end
+    redirect to '/'
   end
-
 
 end
