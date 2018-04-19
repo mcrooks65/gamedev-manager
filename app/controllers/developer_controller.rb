@@ -10,10 +10,9 @@ class DeveloperController < ApplicationController
   end
 
   post '/register' do # Create Developer action
-    @teststring = "This is a string"
     if params[:name] == "" || params[:password] == "" || params[:employees] == "" || params[:location] == ""  # This is user input validation - Specifically checking for blank fields.
       redirect to '/register'
-    elsif params[:name].class != @teststring.class || params[:employees].to_i < 1 || params[:location].class != @teststring.class # Addtional validation - makes sure correct data type is passed.
+    elsif params[:name].to_i > 0 || params[:employees].to_i < 1 || params[:location].to_i > 0 # Addtional validation - makes sure correct data type is passed.
       erb :'/error2'
     else
       @developer = Developer.new(:name => params[:name], :password => params[:password], :employees => params[:employees], :location => params[:location])
