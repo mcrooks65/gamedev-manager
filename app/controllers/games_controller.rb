@@ -26,6 +26,8 @@ class GamesController < ApplicationController
       redirect '/newgame'
     elsif params[:title].to_i > 0 || params[:description].to_i > 0 || params[:genre].to_i > 0 || params[:price].to_i < 1 # User Input Validation - Correct data type
       erb :'/error2'
+    elsif Game.find_by(:title => params[:title]) != nil # Validates if game is already in db
+      erb :'/error4'
     else
       @game = Game.new(:title => params[:title], :developer_id => @current_dev.id, :description => params[:description], :genre => params[:genre], :price => params[:price])
       @game.save
