@@ -22,9 +22,15 @@ class GamesController < ApplicationController
 
   post '/newgame' do # Create Game action
     @current_dev = Developer.find_by(id: session[:user_id])
-    @game = Game.new(:title => params[:title], :developer_id => @current_dev.id, :description => params[:description], :genre => params[:genre], :price => params[:price])
-    @game.save
-    redirect "/games/#{@game.slug}"
+    if params[:title] == "" || params[:description] == "" || params[:genre] == "" || params[:price] == "" # User Input Validation - Blank field check
+      redirect '/newgame'
+    elsif params[:title].to_i > 0 || params[:description].to_i > 0 || params[:genre].to_i > 0 || params[:price].to_i < 1 # User Input Validation - Correct data type
+      erb :'/error2'
+    else
+      @game = Game.new(:title => params[:title], :developer_id => @current_dev.id, :description => params[:description], :genre => params[:genre], :price => params[:price])
+      @game.save
+      redirect "/games/#{@game.slug}"
+    end
   end
 
   get '/games/:slug/edit' do # Edit Game page
@@ -38,13 +44,19 @@ class GamesController < ApplicationController
   end
 
   patch '/games/:slug' do # Edit Game action
-    @current_game = Game.find_by_slug(params[:slug])
-    @current_game.title = params[:title]
-    @current_game.description = params[:description]
-    @current_game.genre = params[:genre]
-    @current_game.price = params[:price]
-    @current_game.save
-    redirect to "/games/#{@current_game.slug}"
+    if params[:title] == "" || params[:description] == "" || params[:genre] == "" || params[:price] == ""
+      redirect '/games/:slug/edit'
+    elsif params[:title].to_i > 0 || params[:description].to_i > 0 || params[:genre].to_i > 0 || params[:price].to_i < 1
+      erb :'/error2'
+    else
+      @current_game = Game.find_by_slug(params[:slug])
+      @current_game.title = params[:title]
+      @current_game.description = params[:description]
+      @current_game.genre = params[:genre]
+      @current_game.price = params[:price]
+      @current_game.save
+      redirect to "/games/#{@current_game.slug}"
+    end
   end
 
   delete '/games/:slug/delete' do # Delete Game action
