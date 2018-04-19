@@ -14,6 +14,8 @@ class DeveloperController < ApplicationController
       redirect to '/register'
     elsif params[:name].to_i > 0 || params[:employees].to_i < 1 || params[:location].to_i > 0 # Addtional validation - makes sure correct data type is passed.
       erb :'/error2'
+    elsif Developer.find_by(:name => params[:name]) != nil # Validate that Developer isn't already in DB
+      erb :'/error3'
     else
       @developer = Developer.new(:name => params[:name], :password => params[:password], :employees => params[:employees], :location => params[:location])
       @developer.save
